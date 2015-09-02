@@ -1,10 +1,10 @@
 #include "virtualcamera.h"
 #include "utilities.h"
 #include <QFile>
-#include <QObject>
 #include <QMessageBox>
 
 VirtualCamera::VirtualCamera()
+
 {
     distortion = NULL;
     rotationMatrix = NULL;

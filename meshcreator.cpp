@@ -1,6 +1,7 @@
 #include "meshcreator.h"
 
-MeshCreator::MeshCreator(PointCloudImage *in)
+MeshCreator::MeshCreator(QObject *parent, PointCloudImage *in) :
+    QObject(parent)
 {
     cloud = in;
     w = cloud->getWidth();
@@ -8,9 +9,9 @@ MeshCreator::MeshCreator(PointCloudImage *in)
     pixelNum = new int[w*h];
 }
 
-MeshCreator::~MeshCreator(void)
+MeshCreator::~MeshCreator()
 {
-    delete pixelNum;
+    delete []pixelNum;
 }
 
 void MeshCreator::exportObjMesh(QString path)
@@ -75,38 +76,12 @@ void MeshCreator::exportPlyMesh(QString path)
     int vertexCount = 0;//顶点数目
     for(int i=0; i < w; i++){
         for(int j=0; j < h; j++){
-            if(cloud->getPoint(i, j, point)){
+            if(cloud->getPoint(i, j, point,color)){
                 pixelNum[access(i, j)] = vertexCount;
                 vertexCount++;
             }
             else
                 pixelNum[access(i, j)]=0;
-        }
-    }
-    int facesCount = 0;//find faces num
-    for(int i=0; i<w;i++){
-        for(int j=0; j<h; j++){
-            int v1 = pixelNum[access(i,j)],v2,v3;
-            if(i < w - 1)
-                v2 = pixelNum[access(i+1,j)];
-            else
-                v2 = 0;
-
-            if(j < h-1)
-                v3=pixelNum[access(i,j+1)];
-            else
-                v3=0;
-
-            if(v1!=0 && v2!=0 && v3!=0)
-                facesCount++;
-
-            if( (j > 0) && (i < w-1))
-                v3=pixelNum[access(i+1,j-1)];
-            else
-                v3=0;
-
-            if(v1!=0 && v2!=0 && v3!=0)
-                facesCount++;
         }
     }
 
@@ -120,7 +95,7 @@ void MeshCreator::exportPlyMesh(QString path)
     out1<<"property uchar red\n";
     out1<<"property uchar green\n";
     out1<<"property uchar blue\n";
-    out1<<"element face " << facesCount << "\n";
+    out1<<"element face 0" <<  "\n";//facesCount <<
     out1<<"property list uchar int vertex_indices\n";
     out1<<"end_header\n";
 
@@ -128,40 +103,14 @@ void MeshCreator::exportPlyMesh(QString path)
         for(int j=0; j<h; j++){
             return_val = cloud->getPoint(i, j, point, color);
             if(return_val){
-                out1<< point.x << " " << point.y << " " << point.z << " "<< color[2] << " " << color[1] << " " << color[0] << "\n";
-                //out1<< point.x << " " << point.y << " " << point.z << " "<< (int) color[2] << " " << (int) color[1] << " " << (int) color[0] << "\n";
+                out1<< point.x << " " << point.y << " " << point.z << " "<<color[2]<< " " << color[1] << " " << color[0] << "\n";
+                //out1<< point.x << " " << point.y << " " << point.z << " "<< (int) << " " << (int) color[1] << " " << (int) color[0] << "\n";
             }
             else
                 pixelNum[access(i, j)]=0;
         }
     }
 
-    for(int i = 0; i < w;i++){
-        for(int j = 0; j < h; j++){
-            int v1 = pixelNum[access(i, j)], v2, v3;
-
-            if(i < w - 1)
-                v2 = pixelNum[access(i + 1, j)];
-            else
-                v2 = 0;
-
-            if(j<h-1)
-                v3 = pixelNum[access(i, j + 1)];
-            else
-                v3 = 0;
-
-            if(v1 != 0 && v2 != 0 && v3 != 0)
-                out1 << "3 " << v1 << " " << v2 << " " << v3 << "\n";
-
-            if(j > 0 && i< w - 1)
-                v3 = pixelNum[access(i + 1, j - 1)];
-            else
-                v3 = 0;
-
-            if(v1!=0 && v2!=0 && v3!=0)
-                out1 << "3 " << v1 << " " << v3 << " " << v2 << "\n";
-        }
-    }
     out1.close();
 }
 

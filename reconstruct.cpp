@@ -3,7 +3,8 @@
 
 bool processleft = true;
 
-Reconstruct::Reconstruct(bool useEpi)
+Reconstruct::Reconstruct(QObject *parent, bool useEpi) :
+    QObject(parent)
 {
     numOfCams = 2;
     mask = NULL;
@@ -24,8 +25,8 @@ Reconstruct::Reconstruct(bool useEpi)
 Reconstruct::~Reconstruct()
 {
     unloadCamImgs();
-    if (points3DProjView)
-        delete points3DProjView ;
+    delete []camsPixels_GE;
+    delete points3DProjView ;
     if (EPI)
         delete sr;
 }
@@ -230,7 +231,7 @@ void Reconstruct::computeShadows()
 bool Reconstruct::runReconstruction()
 {
     bool runSucess = false;
-    GrayCodes grays(scan_w, scan_h, false);//scan_w scan_h get var getparameter
+    GrayCodes grays(NULL, scan_w, scan_h, false);//scan_w scan_h get var getparameter
     numOfColBits = grays.getNumOfColBits();
     numOfRowBits = grays.getNumOfRowBits();
     numberOfImgs = grays.getNumOfImgs();
@@ -258,7 +259,7 @@ bool Reconstruct::runReconstruction()
         }
     }
     if(runSucess){
-        points3DProjView = new PointCloudImage(scan_w, scan_h, haveColor);
+        points3DProjView = new PointCloudImage(cameraWidth, cameraHeight, haveColor);
         triangulation(camsPixels[0],cameras[0],camsPixels[1],cameras[1]);
     }
     return runSucess;
@@ -271,7 +272,7 @@ bool Reconstruct::runReconstruction()
 bool Reconstruct::runReconstruction_GE()
 {
     bool runSucess = false;
-    GrayCodes grays(scan_w, scan_h, true);//scan_w scan_h get var getparameter
+    GrayCodes grays(this, scan_w, scan_h, true);//scan_w scan_h get var getparameter
     numOfColBits = grays.getNumOfColBits();
     numberOfImgs = grays.getNumOfImgs();
 
@@ -300,7 +301,7 @@ bool Reconstruct::runReconstruction_GE()
         }
     }
     if(runSucess){
-        points3DProjView = new PointCloudImage(scan_w, scan_h, haveColor); //最后一个bool值代表是否上色
+        points3DProjView = new PointCloudImage(cameraWidth, cameraHeight, haveColor); //最后一个bool值代表是否上色
         triangulation_ge(camsPixels_GE[0],cameras[0],camsPixels_GE[1],cameras[1]);
     }
     return runSucess;
@@ -493,64 +494,6 @@ void Reconstruct::triangulation_ge(cv::vector<int> *cam1Pixels, VirtualCamera ca
         camera1.loadMatrix(matCoordTrans, 3, 4, loadPath.toStdString());
     }
 
-    ///直接求解空间相交直线交点坐标法
-    /*
-    for (int i = 0; i < height;i++){
-        for (int j = 0;j < width;j++){
-            cv::vector<int> cam1Pix = cam1Pixels[i*cameraWidth + j];//注意这里cam1Pix是一个向量，若类型设为int则出错
-            if (cam1Pix.size() == 0)
-                continue;
-            for (int k = 0;k < width;k++){
-                cv::vector<int> cam2Pix = cam2Pixels[i*cameraWidth + k];
-
-                if (cam2Pix.size() == 0)
-                    continue;
-
-                if (cam1Pix[0] == cam2Pix[0]){//说明左相机(j,i)点与右相机(k,i)点匹配
-                    cv::Point2f camPixelUD = Utilities::undistortPoints(cv::Point2f(j, i),camera1);
-                    cv::Point3f cam1Point = Utilities::pixelToImageSpace(camPixelUD,camera1);
-                    cam2WorldSpace(camera1, cam1Point);
-
-                    cv::Vec3f ray1Vector = (cv::Vec3f) (camera1.position - cam1Point);
-                    Utilities::normalize(ray1Vector);
-
-                    camPixelUD = Utilities::undistortPoints(cv::Point2f(k, i),camera2);
-                    cv::Point3f cam2Point = Utilities::pixelToImageSpace(camPixelUD,camera2);
-                    cam2WorldSpace(camera2, cam2Point);
-
-                    cv::Vec3f ray2Vector = (cv::Vec3f) (camera2.position - cam2Point);
-                    Utilities::normalize(ray2Vector);
-
-                    cv::Point3f interPoint;
-                    cv::Point3f refinedPoint;
-
-                    bool ok = Utilities::line_lineIntersection(camera1.position,ray1Vector,camera2.position,ray2Vector,interPoint);
-
-                    if(!ok)
-                        continue;
-
-                    ///以下判断为多次重建得到的点云拼接做准备
-                    if (scanSN > 0){
-                        float point[] = {interPoint.x, interPoint.y, interPoint.z, 1};
-                        cv::Mat pointMat(4, 1, CV_32F, point);
-                        cv::Mat refineMat(3, 1, CV_32F);
-                        refineMat = matCoordTrans * pointMat;
-                        refinedPoint.x = refineMat.at<float>(0, 0);
-                        refinedPoint.y = refineMat.at<float>(1, 0);
-                        refinedPoint.z = refineMat.at<float>(2, 0);
-                    }
-                    else
-                        refinedPoint = interPoint;
-                    points3DProjView->addPoint(i, j, refinedPoint);
-                    break;//若左图像某点与右图像点已发生了匹配，则不再检索右图像其余点
-                }
-                else
-                    continue;
-            }
-        }
-    }
-    */
-
     ///根据视差及Q矩阵求解法
     for (int i = 0; i < height;i++){//遍历左图像高度方向
         int kstart = 0;//表示每次遍历k时的起点，在k循环找到匹配后更新为匹配k值
@@ -597,10 +540,10 @@ void Reconstruct::triangulation_ge(cv::vector<int> *cam1Pixels, VirtualCamera ca
                     if (haveColor){
                         int val = (colorImgs[0].at<uchar>(i,j) + colorImgs[1].at<uchar>(i,k))/2;
                         cv::Vec3i graycolor = cv::Vec3i(val,val,val);
-                        points3DProjView->addPoint(i, j, refinedPoint, graycolor);
+                        points3DProjView->addPoint(j, i, refinedPoint, graycolor);//注意i，j的顺序关系与addPoint函数要一致
                     }
                     else
-                        points3DProjView->addPoint(i, j, refinedPoint);
+                        points3DProjView->addPoint(j, i, refinedPoint);
                     kstart = k;
                     break;//若左图像某点与右图像点已发生了匹配，则不再检索右图像其余点
                 }
@@ -626,7 +569,7 @@ void Reconstruct::getParameters(int scanw, int scanh, int camw, int camh, bool a
         color = cv::Mat(scanh, scanw, CV_8UC3,cv::Scalar(0));
 
     if (EPI){
-        sr = new stereoRect(savePath_, cv::Size(camw,camh));
+        sr = new stereoRect(this, savePath_, cv::Size(camw,camh));
         sr->getParameters();
     }
 

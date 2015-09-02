@@ -1,9 +1,15 @@
 #include "stereorect.h"
 
-stereoRect::stereoRect(QString projectPath, cv::Size size)
+stereoRect::stereoRect(QObject *parent, QString projectPath, cv::Size size) :
+    QObject(parent)
 {
     ppath = projectPath;
     img_size = size;
+}
+
+stereoRect::~stereoRect()
+{
+
 }
 
 void stereoRect::getParameters()

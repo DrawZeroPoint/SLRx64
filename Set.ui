@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>455</width>
-    <height>356</height>
+    <height>391</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,7 +59,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -229,8 +229,8 @@
         <rect>
          <x>10</x>
          <y>9</y>
-         <width>411</width>
-         <height>121</height>
+         <width>342</width>
+         <height>64</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -242,22 +242,35 @@
        <property name="title">
         <string>Camera Resolution</string>
        </property>
-       <widget class="QRadioButton" name="resMode0">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>89</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>1280X1024</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_15">
+        <item row="0" column="0">
+         <widget class="QRadioButton" name="resMode0">
+          <property name="text">
+           <string>1280X1024</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="resMode1">
+          <property name="text">
+           <string>640X512</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="resMode2">
+          <property name="text">
+           <string>320X256</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -310,7 +323,7 @@
               <number>1280</number>
              </property>
              <property name="value">
-              <number>1280</number>
+              <number>914</number>
              </property>
             </widget>
            </item>
@@ -327,7 +340,7 @@
               <number>1024</number>
              </property>
              <property name="value">
-              <number>1024</number>
+              <number>800</number>
              </property>
             </widget>
            </item>
@@ -369,7 +382,7 @@
               <number>1280</number>
              </property>
              <property name="value">
-              <number>1280</number>
+              <number>914</number>
              </property>
             </widget>
            </item>
@@ -386,7 +399,7 @@
               <number>1024</number>
              </property>
              <property name="value">
-              <number>1024</number>
+              <number>800</number>
              </property>
             </widget>
            </item>
@@ -494,7 +507,7 @@
                 <string>Use Gray with epipolar rectify</string>
                </property>
                <property name="checked">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -504,7 +517,7 @@
                 <string>Use MultiFrequency</string>
                </property>
                <property name="checked">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>

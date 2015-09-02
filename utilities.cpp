@@ -461,3 +461,89 @@ void Utilities::folderScan(const char *path)
     }
 }
 
+void Utilities::matToGray(cv::Mat mat, cv::Mat &out)
+{
+    double value;
+    double vmax;
+    double  vmin;
+    bool first = true;
+//    out = cv::Mat(mat.rows,mat.cols,CV_64FC1);
+    int type = mat.type();
+
+    for (int row = 0;row < mat.rows;row++){
+        for (int col = 0;col < mat.cols;col++){
+
+            switch(type)
+            {
+                case CV_8U:
+                    value = mat.at<uchar>(row, col);
+                    break;
+                case CV_8S:
+                    value = mat.at<schar>(row, col);
+                    break;
+                case CV_16U:
+                    value = mat.at<ushort>(row, col);
+                    break;
+                case CV_16S:
+                    value = mat.at<short>(row, col);
+                    break;
+                case CV_32S:
+                    value = mat.at<int>(row, col);
+                    break;
+                case CV_32F:
+                    value = mat.at<float>(row, col);
+                    break;
+                case CV_64F:
+                    value = mat.at<double>(row, col);
+                    break;
+            }
+            if (first){
+                vmax = value;
+                vmin = value;
+                first = false;
+            }
+            else{
+                if (value > vmax){
+                    vmax = value;
+                }
+                else if (value < vmin){
+                    vmin = value;
+                }
+            }
+        }
+    }
+
+    double outValue;
+    ///归一化计算
+    for (int row = 0;row < mat.rows;row++){
+        for (int col = 0;col < mat.cols;col++){
+            switch(type)
+            {
+                case CV_8U:
+                    value = mat.at<uchar>(row, col);
+                    break;
+                case CV_8S:
+                    value = mat.at<schar>(row, col);
+                    break;
+                case CV_16U:
+                    value = mat.at<ushort>(row, col);
+                    break;
+                case CV_16S:
+                    value = mat.at<short>(row, col);
+                    break;
+                case CV_32S:
+                    value = mat.at<int>(row, col);
+                    break;
+                case CV_32F:
+                    value = mat.at<float>(row, col);
+                    break;
+                case CV_64F:
+                    value = mat.at<double>(row, col);
+                    break;
+            }
+            outValue = (value - vmin)/(vmax - vmin);
+            out.at<double>(row,col) = outValue;
+        }
+    }
+}
+

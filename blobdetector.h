@@ -2,15 +2,18 @@
 #define BLOBDETECTOR_H
 
 #include <opencv/cv.h>
+#include <QObject>
 
 using namespace cv;
 
-class BlobDetector
+class BlobDetector : public QObject
 {
+    Q_OBJECT
 public:
-    BlobDetector();
+    BlobDetector(QObject *parent = 0);
+    ~BlobDetector();
+
     void findBlobs(const cv::Mat &binaryImage, vector<Point2d> &centers) const;
-private:
 
 };
 

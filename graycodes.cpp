@@ -1,10 +1,11 @@
 #include "graycodes.h"
 
-GrayCodes::GrayCodes(int scanW, int scanH, bool useepi)
+GrayCodes::GrayCodes(QObject *parent, int scanW, int scanH, bool useepi) :
+    QObject(parent)
 {
     for (int i=0; i<GRAY_MAX_NUM; i++)
     {
-        grayCodes[i]=NULL;//Initialize
+        grayCodes[i] = NULL;//Initialize
     }
     height = scanH;
     width = scanW;

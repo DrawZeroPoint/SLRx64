@@ -59,7 +59,10 @@ public:
     QSpinBox *boardHeight;
     QWidget *tab_4;
     QGroupBox *groupBox_7;
+    QGridLayout *gridLayout_15;
     QRadioButton *resMode0;
+    QRadioButton *resMode1;
+    QRadioButton *resMode2;
     QWidget *tab_2;
     QGroupBox *groupBox_2;
     QGroupBox *groupBox_3;
@@ -105,7 +108,7 @@ public:
     {
         if (SetDialog->objectName().isEmpty())
             SetDialog->setObjectName(QStringLiteral("SetDialog"));
-        SetDialog->resize(455, 356);
+        SetDialog->resize(455, 391);
         SetDialog->setStyleSheet(QStringLiteral("font: 9pt \"Calibri\";"));
         gridLayout_2 = new QGridLayout(SetDialog);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
@@ -247,16 +250,31 @@ public:
         tab_4->setObjectName(QStringLiteral("tab_4"));
         groupBox_7 = new QGroupBox(tab_4);
         groupBox_7->setObjectName(QStringLiteral("groupBox_7"));
-        groupBox_7->setGeometry(QRect(10, 9, 411, 121));
+        groupBox_7->setGeometry(QRect(10, 9, 342, 64));
         QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(groupBox_7->sizePolicy().hasHeightForWidth());
         groupBox_7->setSizePolicy(sizePolicy3);
+        gridLayout_15 = new QGridLayout(groupBox_7);
+        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
         resMode0 = new QRadioButton(groupBox_7);
         resMode0->setObjectName(QStringLiteral("resMode0"));
-        resMode0->setGeometry(QRect(20, 40, 89, 16));
         resMode0->setChecked(true);
+
+        gridLayout_15->addWidget(resMode0, 0, 0, 1, 1);
+
+        resMode1 = new QRadioButton(groupBox_7);
+        resMode1->setObjectName(QStringLiteral("resMode1"));
+        resMode1->setChecked(false);
+
+        gridLayout_15->addWidget(resMode1, 0, 1, 1, 1);
+
+        resMode2 = new QRadioButton(groupBox_7);
+        resMode2->setObjectName(QStringLiteral("resMode2"));
+
+        gridLayout_15->addWidget(resMode2, 0, 2, 1, 1);
+
         tabWidget->addTab(tab_4, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -283,7 +301,7 @@ public:
         projResH = new QSpinBox(groupBox_3);
         projResH->setObjectName(QStringLiteral("projResH"));
         projResH->setMaximum(1280);
-        projResH->setValue(1280);
+        projResH->setValue(914);
 
         gridLayout_6->addWidget(projResH, 0, 1, 1, 1);
 
@@ -295,7 +313,7 @@ public:
         projResV = new QSpinBox(groupBox_3);
         projResV->setObjectName(QStringLiteral("projResV"));
         projResV->setMaximum(1024);
-        projResV->setValue(1024);
+        projResV->setValue(800);
 
         gridLayout_6->addWidget(projResV, 1, 1, 1, 1);
 
@@ -319,7 +337,7 @@ public:
         scanResH = new QSpinBox(groupBox_4);
         scanResH->setObjectName(QStringLiteral("scanResH"));
         scanResH->setMaximum(1280);
-        scanResH->setValue(1280);
+        scanResH->setValue(914);
 
         gridLayout_9->addWidget(scanResH, 0, 1, 1, 1);
 
@@ -331,7 +349,7 @@ public:
         scanResV = new QSpinBox(groupBox_4);
         scanResV->setObjectName(QStringLiteral("scanResV"));
         scanResV->setMaximum(1024);
-        scanResV->setValue(1024);
+        scanResV->setValue(800);
 
         gridLayout_9->addWidget(scanResV, 1, 1, 1, 1);
 
@@ -401,13 +419,13 @@ public:
 
         grayEpi = new QRadioButton(groupBox_8);
         grayEpi->setObjectName(QStringLiteral("grayEpi"));
-        grayEpi->setChecked(true);
+        grayEpi->setChecked(false);
 
         gridLayout_14->addWidget(grayEpi, 1, 0, 1, 1);
 
         MulitFreqEsp = new QRadioButton(groupBox_8);
         MulitFreqEsp->setObjectName(QStringLiteral("MulitFreqEsp"));
-        MulitFreqEsp->setChecked(false);
+        MulitFreqEsp->setChecked(true);
 
         gridLayout_14->addWidget(MulitFreqEsp, 2, 0, 1, 1);
 
@@ -465,7 +483,7 @@ public:
         QObject::connect(buttonBox, SIGNAL(accepted()), SetDialog, SLOT(accept()));
         QObject::connect(buttonBox, SIGNAL(rejected()), SetDialog, SLOT(reject()));
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(SetDialog);
@@ -484,6 +502,8 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("SetDialog", "Calibration Board", 0));
         groupBox_7->setTitle(QApplication::translate("SetDialog", "Camera Resolution", 0));
         resMode0->setText(QApplication::translate("SetDialog", "1280X1024", 0));
+        resMode1->setText(QApplication::translate("SetDialog", "640X512", 0));
+        resMode2->setText(QApplication::translate("SetDialog", "320X256", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("SetDialog", "Camera", 0));
         groupBox_2->setTitle(QApplication::translate("SetDialog", "Project Region", 0));
         groupBox_3->setTitle(QApplication::translate("SetDialog", "Projector Resolution", 0));

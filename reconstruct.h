@@ -1,6 +1,7 @@
 #ifndef RECONSTRUCT_H
 #define RECONSTRUCT_H
 
+#include <QObject>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include "graycodes.h"
@@ -11,10 +12,11 @@
 
 //#define USE_STEREOCALIB_DATA
 
-class Reconstruct
+class Reconstruct :public QObject
 {
+    Q_OBJECT
 public:
-    Reconstruct(bool useEpi);
+    Reconstruct(QObject *parent = 0, bool useEpi = true);
     ~Reconstruct();
 
     bool loadCameras();

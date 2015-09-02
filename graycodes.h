@@ -1,6 +1,7 @@
 #ifndef GRAYCODES_H
 #define GRAYCODES_H
 
+#include <QObject>
 #include <iostream>
 #include <fstream>
 using std::ofstream;
@@ -11,10 +12,11 @@ using std::ofstream;
 
 #define GRAY_MAX_NUM 44
 
-class GrayCodes
+class GrayCodes : public QObject
 {
+        Q_OBJECT
 public:
-    GrayCodes(int scanW, int scanH, bool useepi);
+    GrayCodes(QObject *parent = 0, int scanW = 0, int scanH = 0, bool useepi = true);
     ~GrayCodes();
 
     cv::Mat grayCodes[GRAY_MAX_NUM];

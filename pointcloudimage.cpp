@@ -46,7 +46,7 @@ bool PointCloudImage::getPoint(int i_w, int j_h, cv::Point3f &pointOut, cv::Vec3
         if(!color.empty())
             colorOut = (cv::Point3i) (Utilities::matGet3D(color,i_w,j_h) / (float) num);
         else
-            colorOut = (cv::Point3i) (100,100,100);//如果color为空，则人为赋一个值
+            colorOut = cv::Vec3i(85,255,0);//如果color为空，则人为赋一个值
         return true;
     }
     else
@@ -85,7 +85,7 @@ bool PointCloudImage::addPoint(int i_w, int j_h, cv::Point3f point, cv::Vec3i co
 
 bool PointCloudImage::addPoint(int i_w, int j_h, cv::Point3f point)
 {
-    if(i_w>=w || j_h>=h)
+    if(i_w >= w || j_h >= h)
         return false;
     uchar num = numOfPointsForPixel.at<uchar>(j_h,i_w);
     if(num == 0)

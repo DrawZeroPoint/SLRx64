@@ -4,6 +4,12 @@
 PlyLoader::PlyLoader(QObject *parent) :
     QObject(parent)
 {
+
+}
+
+PlyLoader::~PlyLoader()
+{
+
 }
 
 bool PlyLoader::LoadModel(QString filename)

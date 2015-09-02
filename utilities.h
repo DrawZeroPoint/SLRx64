@@ -37,8 +37,9 @@ public:
     static void               exportMatParts(const char *path, cv::Mat partR, cv::Mat partT);//将R、T矩阵合并输出，要求R、T行相等
     static bool				line_lineIntersection(cv::Point3f p1, cv::Vec3f v1, cv::Point3f p2,cv::Vec3f v2,cv::Point3f &p);
     static int				accessMat(cv::Mat m, int x, int y, int i);
-    static int				accessMat(cv::Mat m, int x, int y);
-    static void				folderScan(const char *path);
+    static int accessMat(cv::Mat m, int x, int y);
+    static void folderScan(const char *path);
+    static void matToGray(cv::Mat mat, cv::Mat &out);//将图像矩阵转换为[0,1]范围内的矩阵
 };
 
 #endif // UTILITIES_H

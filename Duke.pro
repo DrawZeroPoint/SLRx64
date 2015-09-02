@@ -5,7 +5,12 @@ TARGET = Duke
 QT += quick widgets opengl
 
 SOURCES += \
+    blobdetector.cpp \
+    dahengcamera.cpp \
+    focusassistant.cpp \
+    glwidget.cpp \
     graycodes.cpp \
+    imageviewer.cpp \
     main.cpp \
     mainwindow.cpp \
     meshcreator.cpp \
@@ -16,20 +21,21 @@ SOURCES += \
     utilities.cpp \
     virtualcamera.cpp \
     plyloader.cpp \
-    glwidget.cpp \
     cameracalibration.cpp \
-    dotmatch.cpp \
     multifrequency.cpp \
-    blobdetector.cpp \
-    dahengcamera.cpp \
-    focusassistant.cpp \
+    dotmatch.cpp\
     manualmatch.cpp \
     imageviewer.cpp \
     stereorect.cpp \
-    mfreconstruct.cpp
+    mfreconstruct.cpp \
+    blobdetector.cpp \
+    blobdetector.cpp \
+
 
 RESOURCES += \
     Resource/res.qrc
+# MSVCRT link option (static or dynamic, it must be the same with your Qt SDK link option)
+
 
 INCLUDEPATH += E:\opencv\build\include\
 D:\DA\VC\inc\
@@ -38,7 +44,7 @@ D:\mrpt1.2.2\libs\scanmatching\include\
 D:\mrpt1.2.2\include\mrpt\mrpt-config\
 D:\glm\
 
-LIBS += -LD:\mrpt1.2.2\lib\
+LIBS+=-LD:\mrpt1.2.2\lib\
 -LE:\opencv\build\x64\vc12\lib\
 -LD:\DA\VC\lib\
 -lopencv_core249d\
@@ -55,6 +61,9 @@ LIBS += -LD:\mrpt1.2.2\lib\
 -llibmrpt-base122-dbg\
 -llibmrpt-scanmatching122-dbg\
 
+
+# Default rules for deployment.
+include(deployment.pri)
 
 HEADERS += \
     graycodes.h \
@@ -77,7 +86,10 @@ HEADERS += \
     manualmatch.h \
     imageviewer.h \
     stereorect.h \
-    mfreconstruct.h
+    mfreconstruct.h \
+
+
+
 
 FORMS += \
     mainwindow.ui \
@@ -87,4 +99,3 @@ FORMS += \
     imageviewer.ui
 
 TRANSLATIONS += en.ts zh.ts
-

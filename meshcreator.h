@@ -1,14 +1,16 @@
 #ifndef MESHCREATOR_H
 #define MESHCREATOR_H
 
+#include <QObject>
 #include "pointcloudimage.h"
 #include <QString>
 
-class MeshCreator
+class MeshCreator : public QObject
 {
+    Q_OBJECT
 public:
-    MeshCreator(PointCloudImage *in);
-    ~MeshCreator(void);
+    MeshCreator(QObject *parent = 0, PointCloudImage *in = NULL);
+    ~MeshCreator();
     void exportObjMesh(QString path);
     void exportPlyMesh(QString path);
 private:

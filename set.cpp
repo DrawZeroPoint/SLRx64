@@ -20,6 +20,11 @@ Set::Set(QMainWindow *parent) : QDialog(parent),
     connect(set->buttonBox->button(QDialogButtonBox::Cancel),SIGNAL(clicked()),this,SLOT(hide()));
 }
 
+Set::~Set()
+{
+    delete set;//此处不用delete将导致内存泄露错误
+}
+
 void Set::test(bool flag)
 {
     if(flag == true)

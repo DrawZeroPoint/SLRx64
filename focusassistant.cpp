@@ -16,7 +16,7 @@ FocusAssistant::FocusAssistant(QWidget *parent) :
 
 FocusAssistant::~FocusAssistant()
 {
-    delete ui;
+   delete ui;//此处不删除ui将导致{42091} normal block at 0x00000000079989D0, 80 bytes long.
 }
 
 bool FocusAssistant::checkstate()

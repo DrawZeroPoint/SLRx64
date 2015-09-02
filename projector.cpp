@@ -1,4 +1,5 @@
 #include "projector.h"
+
 #include <QLayout>
 #include <QEvent>
 #include <QPaintEvent>
@@ -16,10 +17,6 @@ Projector::Projector(QWidget *parent, int scanW, int scanH, int projW, int projH
     xoffset = xos;
     yoffset = yos;
     crossVisible = true;
-    label = new QLabel;
-    QHBoxLayout *lo = new QHBoxLayout;
-    lo->addWidget(label);
-    //setLayout(lo);
 }
 
 Projector::~Projector()
@@ -45,7 +42,6 @@ void Projector::paintEvent(QPaintEvent *event)
 void Projector::opencvWindow()
 {
     cv::namedWindow("w");
-    //cvResizeWindow("w",width,height);
     cv::moveWindow("w", xoffset, yoffset);
 }
 
@@ -59,8 +55,6 @@ void Projector::showImg(cv::Mat img)
     pshow = QImage(img.data,img.cols,img.rows,QImage::Format_Indexed8);
     imageAva = true;
     this->update();
-    //QPixmap p = QPixmap::fromImage(pshow);
-    //label->setPixmap(p);
 }
 
 void Projector::destoryWindow()

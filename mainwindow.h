@@ -35,7 +35,7 @@
 
 #include "stereorect.h"
 
-#define DEBUG//用来观察标记点圆心定位精度
+//#define DEBUG//用来观察标记点圆心定位精度
 
 #define WM_SNAP_CHANGE		(WM_USER + 100)
 
@@ -82,10 +82,12 @@ private:
     GrayCodes *grayCode;
     MultiFrequency *mf;
     Projector *pj;
-    Reconstruct *reconstructor;
+
     MFReconstruct *mfr;
 
     DaHengCamera *DHC;
+    cv::Mat triggerLeftTemp[22];//Rom temp for saving images captured by trigger mode
+    cv::Mat triggerRightTemp[22];
 
     bool usebc;//是否使用Basler相机
     bool showFocus;//是否显示对焦辅助窗口
@@ -101,14 +103,14 @@ private:
     void paintPoints();
     void getScreenGeometry();
     void closeCamera();
+    void saveExImgs();
+    void resetCamera();//在外触发采集后将相机恢复至正常采集状态
     void generatePath(int type);
 
     ///---------------辅助功能---------------///
 
     void progressPop(int up);
     void drawCross(QPainter &p, int x, int y);
-
-    QLabel *msgLabel;//show message in the bottom of the window
 
     QTimer *timer;
     QImage image_1;
@@ -142,7 +144,8 @@ private slots:
     void startfocusassistant();
     void closefocus();
     void setexposure();
-    void readframe();
+    void showframe();
+    void getframe();
 
     void usebasler();
 
@@ -158,9 +161,11 @@ private slots:
     void scan();
     void pointmatch();
     void refindmatch();
+    void resetfind();
     void showhidemanual();
     void finishmanualmatch();
     void startscan();
+    void stopscan();
     void test();
 
     void reconstruct();
@@ -172,6 +177,8 @@ private slots:
     void changePointSize(int psize);
     void loadTestModel();
     void switchlanguage();
+
+    void exitApp();
 
 };
 

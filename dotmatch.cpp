@@ -15,8 +15,9 @@ DotMatch::DotMatch(QObject *parent, QString projectPath, bool useManual, bool us
 {
     firstFind = true;//第一次查找标志点默认为基准点
     scanSN = 0;//表示扫描的次数，0表示第一次扫描
+    resetSN = 0;//初始时
 
-    rc = new Reconstruct(false);
+    rc = new Reconstruct(this, false);
     rc->calibFolder = new QString[2];
     rc->savePath_ = projectPath;
     rc->setCalibPath(projectPath +"/calib/left/", 0);
@@ -27,7 +28,7 @@ DotMatch::DotMatch(QObject *parent, QString projectPath, bool useManual, bool us
     useManualMatch = useManual;
     useEpi = useepi;
     if (useepi){
-        sr = new stereoRect(projectPath, cv::Size(1280,1024));//此处直接赋值应改为间接
+        sr = new stereoRect(this, projectPath, cv::Size(1280,1024));//此处直接赋值应改为间接
         sr->getParameters();
         sr->calParameters();
     }
@@ -35,6 +36,7 @@ DotMatch::DotMatch(QObject *parent, QString projectPath, bool useManual, bool us
 
 DotMatch::~DotMatch()
 {
+    delete rc;
     if (useEpi)
         delete sr;
 }
@@ -541,8 +543,14 @@ void DotMatch::finishMatch()
         }
         markPoint();//这里再次标记是有必要的，因为之前更新了correspondPoint，因此应反映这些更新
     }
-    else
+    else{
         firstFind = false;
+        if (resetSN != 0){
+            ///若reset不为0，说明扫描被重置
+            QString outTransPath = path + "/scan/transfer_mat" + QString::number(resetSN) + ".txt";
+            Utilities::exportMatParts(outTransPath.toLocal8Bit(), matRotation, matTransform);
+        }
+    }
     scanSN++;
 }
 
@@ -785,11 +793,7 @@ cv::vector<cv::vector<float>> DotMatch::calFeature(cv::vector<Point3f> dotP)
 
 
 ////__________________________________________________________________////
-/// 方法1：
-/// 根据当前扫描获得的特征值查找其中的已有点并计算变换矩阵                         ////
-/// 并将新点加入dotFeature库                                                                       ////
-/// 注意featureTemp中元素的序号与dotPositionOdd 或dotPositionEven是对应的       ////
-/// 方法2：
+/// 注意featureTemp中元素的序号与dotPositionOdd 或dotPositionEven是对应的
 /// 三角匹配+1单点匹配
 ////__________________________________________________________________////
 bool DotMatch::dotClassify(cv::vector<cv::vector<float> > featureTemp)
@@ -1176,7 +1180,7 @@ void DotMatch::calMatrix()
         matRotation = transFormer(cv::Range::all(),rangeR).clone();
         matTransform = transFormer(cv::Range::all(),rangeT).clone();
 
-        QString outTransPath = path + "/scan/transfer_mat1" + ".txt";
+        QString outTransPath = path + "/scan/transfer_mat" + QString::number(1+resetSN) + ".txt";
         Utilities::exportMat(outTransPath.toLocal8Bit(), transFormer);
     }
     else {
@@ -1190,7 +1194,7 @@ void DotMatch::calMatrix()
         matRotation = transR;//更新数值为R1*R2
         matTransform = transT;//更新数值为//R1*T2+T1
 
-        QString outTransPath = path + "/scan/transfer_mat" + QString::number(scanSN) + ".txt";
+        QString outTransPath = path + "/scan/transfer_mat" + QString::number(scanSN+resetSN) + ".txt";
         Utilities::exportMatParts(outTransPath.toLocal8Bit(), transR, transT);
     }
 }

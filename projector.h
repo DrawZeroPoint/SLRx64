@@ -10,6 +10,7 @@
 #include <QPainter>
 
 #include <QMainWindow>
+#include <QObject>
 
 class Projector : public QWidget
 {
@@ -27,7 +28,7 @@ public:
     void paintEvent(QPaintEvent *event);
 
 private:
-    QLabel *label;
+    //    QLabel *label;
 
     QImage pshow;
     bool crossVisible;

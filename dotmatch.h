@@ -4,7 +4,7 @@
 //调试用宏定义
 //#define DEBUG
 //#define TEST_SURF
-#define TEST
+//宏定义在本文件及引用的头文件中只需定义一次
 
 // Qt
 #include <QObject>
@@ -68,8 +68,11 @@ public:
 
     int bwThreshold;
     int blocksize;//二值化的一个参数，由用户给定
+
+    ///-------初始化所需数据--------/
     bool firstFind;
     int scanSN;
+    int resetSN;//若在主窗口启用了resetfind功能，则将该值置换为将要进行的扫描序号
 
     static bool isBelongTo(size_t e, vector<int> C);
 

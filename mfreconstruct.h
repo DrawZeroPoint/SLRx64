@@ -14,7 +14,9 @@ class MFReconstruct : public QObject
     Q_OBJECT
 public:
     explicit MFReconstruct(QObject *parent = 0);
-    void getParameters(int scansn, int scanw, int scanh,  int camw, int camh, int blackt, int whitet, QString savePath);
+    ~MFReconstruct();
+
+    bool getParameters(int scansn,  int camw, int camh, int blackt, bool havecolor, QString savePath);
     bool runReconstruction();
 
     PointCloudImage *points3DProjView;
@@ -32,33 +34,31 @@ private:
     int numOfColBits;
 
     int blackThreshold;
-    int whiteThreshold;
 
     cv::Mat mask;//matrix with vals 0 and 1 , CV_8U , uchar
     cv::Mat decRows;
     cv::Mat decCols;
     cv::vector<cv::Mat> camImgs;
 
-    cv::vector<float> **camsPixels;
-    cv::vector<float> *camPixels;
+    cv::vector<double> **camsPixels;
+    cv::vector<double> *camPixels;
 
     bool pathSet;
+    bool haveColor;
     int cameraWidth;
     int cameraHeight;
-    int scan_w;
-    int scan_h;
 
-    VirtualCamera *camera;//general functions use this instead of camera1 or camera2
-    VirtualCamera	*cameras;
+//    VirtualCamera *camera;//general functions use this instead of camera1 or camera2
+//    VirtualCamera	*cameras;
     stereoRect *sr;
 
-    bool loadCameras();
+//    bool loadCameras();
     bool loadCamImgs(QString folder, QString prefix, QString suffix);
     void unloadCamImgs();
     void computeShadows();
     void decodePatterns();
-    void getPhase(int row, int col, float &phase);
-    void triangulation(cv::vector<float> *cam1Pixels, VirtualCamera cameras1, cv::vector<float> *cam2Pixels, VirtualCamera cameras2);
+    void getPhase(int row, int col, double &phase);
+    void triangulation(cv::vector<double> *cam1Pixels, cv::vector<double> *cam2Pixels);
 
 signals:
 

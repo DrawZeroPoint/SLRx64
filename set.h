@@ -3,6 +3,7 @@
 #include <QtGui>
 #include <QMainWindow>
 #include <QDialog>
+#include <QObject>
 #include <opencv/cv.h>
 
 #include <direct.h>
@@ -19,6 +20,8 @@ class Set : public QDialog
     Q_OBJECT
 public:
     Set(QMainWindow *parent = 0);
+    ~Set();
+
 
     QString saveSetPath;
     int proj_h;

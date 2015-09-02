@@ -3,6 +3,8 @@
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+
+#include <QObject>
 #include <QString>
 
 #include <stdio.h>
@@ -12,9 +14,11 @@
 
 class VirtualCamera
 {
+
 public:
     VirtualCamera();
     ~VirtualCamera();
+
     void loadDistortion(QString path);
     bool loadCameraMatrix(QString path);
     void loadRotationMatrix(QString path);
@@ -35,9 +39,6 @@ public:
     cv::Point2f cc;
     int width;
     int height;
-
-private:
-
 };
 
 #endif // VIRTUALCAMERA_H

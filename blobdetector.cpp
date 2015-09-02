@@ -27,8 +27,15 @@ bool filterByConvexity = true;
 float minConvexity = 0.95f;
 float maxConvexity = std::numeric_limits<float>::max();
 
-BlobDetector::BlobDetector()
+BlobDetector::BlobDetector(QObject *parent) :
+    QObject(parent)
 {
+
+}
+
+BlobDetector::~BlobDetector()
+{
+
 }
 
 void BlobDetector::findBlobs(const cv::Mat &binaryImage, vector<Point2d> &centers) const

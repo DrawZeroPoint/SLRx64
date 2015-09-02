@@ -17,27 +17,34 @@ public:
     bool cameraOpened;
 
     void daHengExposure(int leftexposure, int rightexposure);
-    void openDaHengCamera(int camerawidth, int cameraheight);
+    void initialDaHengCamera(int camerawidth, int cameraheight, bool extrigger);
+    void openDaHengCamera();
     void daHengSnapShot(int camNo);
     void closeCamera();
 
     BYTE *m_pRawBuffer_1;
     BYTE *m_pRawBuffer_2;
 
+    int dwLastStatus;
+
 private:
+
     HHV	m_hhv_1;
     HHV	m_hhv_2;
 
     int cam_w;
     int cam_h;
 
-    static int CALLBACK SnapThreadCallback(HV_SNAP_INFO *pInfo);
+    static int CALLBACK SnapThreadCallback(HV_SNAP_INFO *pInfo);//static不可去掉
 
     ///---------------相机相关函数---------------///
     void OnSnapexOpen();
     void OnSnapexStart();
     void OnSnapexStop();
     void OnSnapexClose();
+
+signals:
+    void sendImage();
 
 };
 

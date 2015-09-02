@@ -10,13 +10,15 @@
 
 #include "utilities.h"
 
-#define TEST
+//#define TEST//测试二值化
 
 class stereoRect : public QObject
 {
     Q_OBJECT
 public:
-    stereoRect(QString projectPath, cv::Size size);
+    stereoRect(QObject *parent = 0, QString projectPath = NULL, cv::Size size = cv::Size(0,0));
+    ~stereoRect();
+
     void doStereoRectify(cv::Mat &img, bool isleft);
     void getParameters();
     void calParameters();

@@ -59,6 +59,7 @@ public:
     QGridLayout *gridLayout_2;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
+    QSplitter *centerHSplitter;
     QWidget *displayWidget;
     QGridLayout *gridLayout_13;
     QGroupBox *groupBox_3;
@@ -67,9 +68,6 @@ public:
     QSpinBox *pSizeValue;
     QLabel *label;
     QHBoxLayout *displayLayout;
-    QHBoxLayout *horizontalLayout_2;
-    QLabel *label_2;
-    QProgressBar *progressBar;
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_17;
@@ -112,10 +110,13 @@ public:
     QVBoxLayout *verticalLayout;
     QPushButton *findPointButton;
     QPushButton *reFindButton;
+    QPushButton *resetFindButton;
     QFrame *line_5;
     QHBoxLayout *horizontalLayout;
     QLabel *label_3;
     QLabel *scanSNLabel;
+    QCheckBox *externalTrigger;
+    QPushButton *stopScanButton;
     QWidget *tab_3;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_2;
@@ -125,6 +126,11 @@ public:
     QLabel *label_4;
     QSpinBox *reconstructionCount;
     QPushButton *reconstructionButton;
+    QGroupBox *progressGroup;
+    QGridLayout *gridLayout_14;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label_2;
+    QProgressBar *progressBar;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuCustomize;
@@ -298,9 +304,9 @@ public:
         centralwidget->setSizePolicy(sizePolicy);
         centralwidget->setMinimumSize(QSize(290, 500));
         gridLayout_2 = new QGridLayout(centralwidget);
-        gridLayout_2->setSpacing(1);
+        gridLayout_2->setSpacing(3);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        gridLayout_2->setContentsMargins(1, 1, 1, 1);
+        gridLayout_2->setContentsMargins(3, 3, 3, 3);
         centralWidget = new QWidget(centralwidget);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -312,16 +318,16 @@ public:
         centralWidget->setSizeIncrement(QSize(0, 0));
         centralWidget->setStyleSheet(QStringLiteral(""));
         gridLayout = new QGridLayout(centralWidget);
-        gridLayout->setSpacing(2);
+        gridLayout->setSpacing(3);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setContentsMargins(1, 1, 1, 1);
-        displayWidget = new QWidget(centralWidget);
+        gridLayout->setContentsMargins(3, 3, 3, 3);
+        centerHSplitter = new QSplitter(centralWidget);
+        centerHSplitter->setObjectName(QStringLiteral("centerHSplitter"));
+        centerHSplitter->setOrientation(Qt::Vertical);
+        displayWidget = new QWidget(centerHSplitter);
         displayWidget->setObjectName(QStringLiteral("displayWidget"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(displayWidget->sizePolicy().hasHeightForWidth());
-        displayWidget->setSizePolicy(sizePolicy2);
+        sizePolicy.setHeightForWidth(displayWidget->sizePolicy().hasHeightForWidth());
+        displayWidget->setSizePolicy(sizePolicy);
         displayWidget->setContextMenuPolicy(Qt::NoContextMenu);
         displayWidget->setAutoFillBackground(false);
         displayWidget->setStyleSheet(QStringLiteral(""));
@@ -331,11 +337,11 @@ public:
         gridLayout_13->setContentsMargins(0, 1, 0, 1);
         groupBox_3 = new QGroupBox(displayWidget);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(groupBox_3->sizePolicy().hasHeightForWidth());
-        groupBox_3->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(groupBox_3->sizePolicy().hasHeightForWidth());
+        groupBox_3->setSizePolicy(sizePolicy2);
         groupBox_3->setStyleSheet(QStringLiteral("background-color: rgb(147, 221, 221);"));
         groupBox_3->setTitle(QStringLiteral(""));
         gridLayout_12 = new QGridLayout(groupBox_3);
@@ -346,11 +352,11 @@ public:
 
         pSizeValue = new QSpinBox(groupBox_3);
         pSizeValue->setObjectName(QStringLiteral("pSizeValue"));
-        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(pSizeValue->sizePolicy().hasHeightForWidth());
-        pSizeValue->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(pSizeValue->sizePolicy().hasHeightForWidth());
+        pSizeValue->setSizePolicy(sizePolicy3);
         pSizeValue->setAlignment(Qt::AlignCenter);
         pSizeValue->setSuffix(QStringLiteral("(pix)"));
         pSizeValue->setMinimum(1);
@@ -373,37 +379,16 @@ public:
 
         gridLayout_13->addLayout(displayLayout, 0, 1, 1, 1);
 
-
-        gridLayout->addWidget(displayWidget, 0, 0, 1, 1);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(10);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        label_2 = new QLabel(centralWidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setStyleSheet(QStringLiteral("font: 75 9pt \"Calibri\";"));
-
-        horizontalLayout_2->addWidget(label_2);
-
-        progressBar = new QProgressBar(centralWidget);
-        progressBar->setObjectName(QStringLiteral("progressBar"));
-        progressBar->setStyleSheet(QStringLiteral("font: 75 9pt \"Calibri\";"));
-        progressBar->setValue(0);
-        progressBar->setInvertedAppearance(false);
-
-        horizontalLayout_2->addWidget(progressBar);
-
-
-        gridLayout->addLayout(horizontalLayout_2, 2, 0, 1, 1);
-
-        tabWidget = new QTabWidget(centralWidget);
+        centerHSplitter->addWidget(displayWidget);
+        tabWidget = new QTabWidget(centerHSplitter);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        QSizePolicy sizePolicy5(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
-        tabWidget->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
+        tabWidget->setSizePolicy(sizePolicy4);
         tabWidget->setMinimumSize(QSize(350, 275));
+        tabWidget->setMaximumSize(QSize(16777215, 350));
         tabWidget->setToolTipDuration(0);
         tabWidget->setLayoutDirection(Qt::LeftToRight);
         tabWidget->setStyleSheet(QLatin1String("background-color: rgb(111, 215, 253);\n"
@@ -436,8 +421,8 @@ public:
 
         currentPhotoLabel = new QLabel(tab);
         currentPhotoLabel->setObjectName(QStringLiteral("currentPhotoLabel"));
-        sizePolicy4.setHeightForWidth(currentPhotoLabel->sizePolicy().hasHeightForWidth());
-        currentPhotoLabel->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(currentPhotoLabel->sizePolicy().hasHeightForWidth());
+        currentPhotoLabel->setSizePolicy(sizePolicy3);
         currentPhotoLabel->setLayoutDirection(Qt::LeftToRight);
         currentPhotoLabel->setStyleSheet(QStringLiteral("background-color: rgb(255, 255, 255);"));
         currentPhotoLabel->setAlignment(Qt::AlignCenter);
@@ -446,11 +431,11 @@ public:
 
         label_11 = new QLabel(tab);
         label_11->setObjectName(QStringLiteral("label_11"));
-        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
-        label_11->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
+        label_11->setSizePolicy(sizePolicy5);
 
         gridLayout_17->addWidget(label_11, 0, 2, 1, 2);
 
@@ -460,11 +445,8 @@ public:
 
         explainLabel = new QLabel(tab);
         explainLabel->setObjectName(QStringLiteral("explainLabel"));
-        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy7.setHorizontalStretch(0);
-        sizePolicy7.setVerticalStretch(0);
-        sizePolicy7.setHeightForWidth(explainLabel->sizePolicy().hasHeightForWidth());
-        explainLabel->setSizePolicy(sizePolicy7);
+        sizePolicy4.setHeightForWidth(explainLabel->sizePolicy().hasHeightForWidth());
+        explainLabel->setSizePolicy(sizePolicy4);
         explainLabel->setMinimumSize(QSize(100, 200));
         explainLabel->setMaximumSize(QSize(400, 300));
         explainLabel->setFont(font1);
@@ -483,27 +465,27 @@ public:
         captureButton = new QPushButton(tab);
         captureButton->setObjectName(QStringLiteral("captureButton"));
         captureButton->setEnabled(false);
-        QSizePolicy sizePolicy8(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(captureButton->sizePolicy().hasHeightForWidth());
-        captureButton->setSizePolicy(sizePolicy8);
+        QSizePolicy sizePolicy6(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(captureButton->sizePolicy().hasHeightForWidth());
+        captureButton->setSizePolicy(sizePolicy6);
 
         verticalLayout_3->addWidget(captureButton);
 
         redoButton = new QPushButton(tab);
         redoButton->setObjectName(QStringLiteral("redoButton"));
         redoButton->setEnabled(false);
-        sizePolicy8.setHeightForWidth(redoButton->sizePolicy().hasHeightForWidth());
-        redoButton->setSizePolicy(sizePolicy8);
+        sizePolicy6.setHeightForWidth(redoButton->sizePolicy().hasHeightForWidth());
+        redoButton->setSizePolicy(sizePolicy6);
 
         verticalLayout_3->addWidget(redoButton);
 
         calibButton = new QPushButton(tab);
         calibButton->setObjectName(QStringLiteral("calibButton"));
         calibButton->setEnabled(false);
-        sizePolicy8.setHeightForWidth(calibButton->sizePolicy().hasHeightForWidth());
-        calibButton->setSizePolicy(sizePolicy8);
+        sizePolicy6.setHeightForWidth(calibButton->sizePolicy().hasHeightForWidth());
+        calibButton->setSizePolicy(sizePolicy6);
 
         verticalLayout_3->addWidget(calibButton);
 
@@ -525,8 +507,8 @@ public:
         verticalLayout_4->setContentsMargins(4, -1, -1, -1);
         label_10 = new QLabel(tab);
         label_10->setObjectName(QStringLiteral("label_10"));
-        sizePolicy4.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
-        label_10->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
+        label_10->setSizePolicy(sizePolicy3);
 
         verticalLayout_4->addWidget(label_10);
 
@@ -580,8 +562,8 @@ public:
         startScanButton = new QPushButton(tab_2);
         startScanButton->setObjectName(QStringLiteral("startScanButton"));
         startScanButton->setEnabled(false);
-        sizePolicy4.setHeightForWidth(startScanButton->sizePolicy().hasHeightForWidth());
-        startScanButton->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(startScanButton->sizePolicy().hasHeightForWidth());
+        startScanButton->setSizePolicy(sizePolicy3);
 
         gridLayout_15->addWidget(startScanButton, 3, 0, 1, 1);
 
@@ -676,18 +658,23 @@ public:
         findPointButton = new QPushButton(tab_2);
         findPointButton->setObjectName(QStringLiteral("findPointButton"));
         findPointButton->setEnabled(false);
-        sizePolicy4.setHeightForWidth(findPointButton->sizePolicy().hasHeightForWidth());
-        findPointButton->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(findPointButton->sizePolicy().hasHeightForWidth());
+        findPointButton->setSizePolicy(sizePolicy3);
 
         verticalLayout->addWidget(findPointButton);
 
         reFindButton = new QPushButton(tab_2);
         reFindButton->setObjectName(QStringLiteral("reFindButton"));
         reFindButton->setEnabled(false);
-        sizePolicy4.setHeightForWidth(reFindButton->sizePolicy().hasHeightForWidth());
-        reFindButton->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(reFindButton->sizePolicy().hasHeightForWidth());
+        reFindButton->setSizePolicy(sizePolicy3);
 
         verticalLayout->addWidget(reFindButton);
+
+        resetFindButton = new QPushButton(tab_2);
+        resetFindButton->setObjectName(QStringLiteral("resetFindButton"));
+
+        verticalLayout->addWidget(resetFindButton);
 
 
         gridLayout_15->addLayout(verticalLayout, 1, 2, 1, 1);
@@ -713,6 +700,17 @@ public:
 
 
         gridLayout_15->addLayout(horizontalLayout, 1, 4, 1, 1);
+
+        externalTrigger = new QCheckBox(tab_2);
+        externalTrigger->setObjectName(QStringLiteral("externalTrigger"));
+        externalTrigger->setChecked(true);
+
+        gridLayout_15->addWidget(externalTrigger, 3, 4, 1, 1);
+
+        stopScanButton = new QPushButton(tab_2);
+        stopScanButton->setObjectName(QStringLiteral("stopScanButton"));
+
+        gridLayout_15->addWidget(stopScanButton, 3, 2, 1, 1);
 
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
@@ -756,8 +754,55 @@ public:
         verticalLayout_2->addLayout(horizontalLayout_6);
 
         tabWidget->addTab(tab_3, QString());
+        centerHSplitter->addWidget(tabWidget);
+        progressGroup = new QGroupBox(centerHSplitter);
+        progressGroup->setObjectName(QStringLiteral("progressGroup"));
+        sizePolicy3.setHeightForWidth(progressGroup->sizePolicy().hasHeightForWidth());
+        progressGroup->setSizePolicy(sizePolicy3);
+        progressGroup->setMinimumSize(QSize(0, 46));
+        progressGroup->setMaximumSize(QSize(16777215, 46));
+        progressGroup->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        gridLayout_14 = new QGridLayout(progressGroup);
+        gridLayout_14->setObjectName(QStringLiteral("gridLayout_14"));
+        gridLayout_14->setHorizontalSpacing(10);
+        gridLayout_14->setVerticalSpacing(1);
+        gridLayout_14->setContentsMargins(5, 0, 5, 5);
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(15);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(10, -1, 10, -1);
+        label_2 = new QLabel(progressGroup);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        sizePolicy3.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy3);
+        label_2->setMinimumSize(QSize(0, 18));
+        label_2->setMaximumSize(QSize(16777215, 18));
+        label_2->setLayoutDirection(Qt::LeftToRight);
+        label_2->setStyleSheet(QStringLiteral("font: 75 9pt \"Calibri\";"));
+        label_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
 
-        gridLayout->addWidget(tabWidget, 1, 0, 1, 1);
+        horizontalLayout_2->addWidget(label_2);
+
+        progressBar = new QProgressBar(progressGroup);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setMinimumSize(QSize(0, 26));
+        progressBar->setMaximumSize(QSize(16777215, 26));
+        progressBar->setLayoutDirection(Qt::LeftToRight);
+        progressBar->setAutoFillBackground(false);
+        progressBar->setStyleSheet(QStringLiteral("font: 75 9pt \"Calibri\";"));
+        progressBar->setValue(0);
+        progressBar->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        progressBar->setTextVisible(true);
+        progressBar->setInvertedAppearance(false);
+
+        horizontalLayout_2->addWidget(progressBar);
+
+
+        gridLayout_14->addLayout(horizontalLayout_2, 0, 0, 1, 1);
+
+        centerHSplitter->addWidget(progressGroup);
+
+        gridLayout->addWidget(centerHSplitter, 0, 0, 1, 1);
 
 
         gridLayout_2->addWidget(centralWidget, 0, 0, 1, 1);
@@ -894,11 +939,11 @@ public:
         gridLayout_7->setContentsMargins(0, 0, 0, 0);
         widget_3 = new QWidget(dockWidgetContents);
         widget_3->setObjectName(QStringLiteral("widget_3"));
-        QSizePolicy sizePolicy9(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-        sizePolicy9.setHorizontalStretch(0);
-        sizePolicy9.setVerticalStretch(0);
-        sizePolicy9.setHeightForWidth(widget_3->sizePolicy().hasHeightForWidth());
-        widget_3->setSizePolicy(sizePolicy9);
+        QSizePolicy sizePolicy7(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(widget_3->sizePolicy().hasHeightForWidth());
+        widget_3->setSizePolicy(sizePolicy7);
         gridLayout_3 = new QGridLayout(widget_3);
         gridLayout_3->setSpacing(0);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
@@ -917,8 +962,8 @@ public:
 
         leftViewLabel = new QLabel(widget_3);
         leftViewLabel->setObjectName(QStringLiteral("leftViewLabel"));
-        sizePolicy7.setHeightForWidth(leftViewLabel->sizePolicy().hasHeightForWidth());
-        leftViewLabel->setSizePolicy(sizePolicy7);
+        sizePolicy4.setHeightForWidth(leftViewLabel->sizePolicy().hasHeightForWidth());
+        leftViewLabel->setSizePolicy(sizePolicy4);
         leftViewLabel->setMaximumSize(QSize(800, 640));
         leftViewLabel->setStyleSheet(QStringLiteral("border:1px solid deepskyblue;"));
         leftViewLabel->setFrameShape(QFrame::Box);
@@ -936,8 +981,8 @@ public:
 
         widget_4 = new QWidget(dockWidgetContents);
         widget_4->setObjectName(QStringLiteral("widget_4"));
-        sizePolicy9.setHeightForWidth(widget_4->sizePolicy().hasHeightForWidth());
-        widget_4->setSizePolicy(sizePolicy9);
+        sizePolicy7.setHeightForWidth(widget_4->sizePolicy().hasHeightForWidth());
+        widget_4->setSizePolicy(sizePolicy7);
         gridLayout_4 = new QGridLayout(widget_4);
         gridLayout_4->setSpacing(0);
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
@@ -952,8 +997,8 @@ public:
 
         leftCaptureLabel = new QLabel(widget_4);
         leftCaptureLabel->setObjectName(QStringLiteral("leftCaptureLabel"));
-        sizePolicy7.setHeightForWidth(leftCaptureLabel->sizePolicy().hasHeightForWidth());
-        leftCaptureLabel->setSizePolicy(sizePolicy7);
+        sizePolicy4.setHeightForWidth(leftCaptureLabel->sizePolicy().hasHeightForWidth());
+        leftCaptureLabel->setSizePolicy(sizePolicy4);
         leftCaptureLabel->setMaximumSize(QSize(800, 640));
         leftCaptureLabel->setStyleSheet(QStringLiteral("border:1px solid deepskyblue;"));
         leftCaptureLabel->setScaledContents(true);
@@ -974,8 +1019,8 @@ public:
 
         groupBox = new QGroupBox(dockWidgetContents);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        sizePolicy9.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
-        groupBox->setSizePolicy(sizePolicy9);
+        sizePolicy7.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
+        groupBox->setSizePolicy(sizePolicy7);
         groupBox->setMaximumSize(QSize(111111, 70));
         groupBox->setStyleSheet(QLatin1String("font: 9pt \"Calibri\";\n"
 "background-color: rgbrgb(111, 215, 253)"));
@@ -1052,8 +1097,8 @@ public:
         gridLayout_10->setContentsMargins(0, 0, 0, 0);
         widget_6 = new QWidget(dockWidgetContents_3);
         widget_6->setObjectName(QStringLiteral("widget_6"));
-        sizePolicy7.setHeightForWidth(widget_6->sizePolicy().hasHeightForWidth());
-        widget_6->setSizePolicy(sizePolicy7);
+        sizePolicy4.setHeightForWidth(widget_6->sizePolicy().hasHeightForWidth());
+        widget_6->setSizePolicy(sizePolicy4);
         gridLayout_5 = new QGridLayout(widget_6);
         gridLayout_5->setSpacing(0);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
@@ -1068,8 +1113,8 @@ public:
 
         rightViewLabel = new QLabel(widget_6);
         rightViewLabel->setObjectName(QStringLiteral("rightViewLabel"));
-        sizePolicy7.setHeightForWidth(rightViewLabel->sizePolicy().hasHeightForWidth());
-        rightViewLabel->setSizePolicy(sizePolicy7);
+        sizePolicy4.setHeightForWidth(rightViewLabel->sizePolicy().hasHeightForWidth());
+        rightViewLabel->setSizePolicy(sizePolicy4);
         rightViewLabel->setMaximumSize(QSize(800, 640));
         rightViewLabel->setStyleSheet(QStringLiteral("border:1px solid deepskyblue;"));
         rightViewLabel->setScaledContents(true);
@@ -1090,8 +1135,8 @@ public:
 
         groupBox_2 = new QGroupBox(dockWidgetContents_3);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        sizePolicy9.setHeightForWidth(groupBox_2->sizePolicy().hasHeightForWidth());
-        groupBox_2->setSizePolicy(sizePolicy9);
+        sizePolicy7.setHeightForWidth(groupBox_2->sizePolicy().hasHeightForWidth());
+        groupBox_2->setSizePolicy(sizePolicy7);
         groupBox_2->setMaximumSize(QSize(111111, 70));
         groupBox_2->setStyleSheet(QLatin1String("font: 9pt \"Calibri\";\n"
 "background-color: rgbrgb(111, 215, 253)"));
@@ -1148,11 +1193,11 @@ public:
 
         widget_5 = new QWidget(dockWidgetContents_3);
         widget_5->setObjectName(QStringLiteral("widget_5"));
-        QSizePolicy sizePolicy10(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-        sizePolicy10.setHorizontalStretch(0);
-        sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(widget_5->sizePolicy().hasHeightForWidth());
-        widget_5->setSizePolicy(sizePolicy10);
+        QSizePolicy sizePolicy8(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(widget_5->sizePolicy().hasHeightForWidth());
+        widget_5->setSizePolicy(sizePolicy8);
         gridLayout_6 = new QGridLayout(widget_5);
         gridLayout_6->setSpacing(0);
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
@@ -1167,8 +1212,8 @@ public:
 
         rightCaptureLabel = new QLabel(widget_5);
         rightCaptureLabel->setObjectName(QStringLiteral("rightCaptureLabel"));
-        sizePolicy7.setHeightForWidth(rightCaptureLabel->sizePolicy().hasHeightForWidth());
-        rightCaptureLabel->setSizePolicy(sizePolicy7);
+        sizePolicy4.setHeightForWidth(rightCaptureLabel->sizePolicy().hasHeightForWidth());
+        rightCaptureLabel->setSizePolicy(sizePolicy4);
         rightCaptureLabel->setMaximumSize(QSize(800, 640));
         rightCaptureLabel->setStyleSheet(QStringLiteral("border:1px solid deepskyblue;"));
         rightCaptureLabel->setScaledContents(true);
@@ -1232,7 +1277,7 @@ public:
         QObject::connect(spinBox, SIGNAL(valueChanged(int)), snapSpeedBox, SLOT(setValue(int)));
         QObject::connect(manualReconstruction, SIGNAL(clicked(bool)), reconstructionCount, SLOT(setEnabled(bool)));
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1316,7 +1361,6 @@ public:
         actionFocusAssistant->setText(QApplication::translate("MainWindow", "Focus Assistant", 0));
         actionHelp->setText(QApplication::translate("MainWindow", "Help", 0));
         label->setText(QApplication::translate("MainWindow", "Point Size", 0));
-        label_2->setText(QApplication::translate("MainWindow", "Current Operation Processed:", 0));
         label_9->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Capture images as displayed:</p></body></html>", 0));
         currentPhotoLabel->setText(QApplication::translate("MainWindow", "0", 0));
         label_11->setText(QApplication::translate("MainWindow", "<html><head/><body><p>/14 images have been captured.</p></body></html>", 0));
@@ -1338,13 +1382,17 @@ public:
         manualWindow->setText(QApplication::translate("MainWindow", "Show/Hide Manual Window", 0));
         findPointButton->setText(QApplication::translate("MainWindow", "Find Point", 0));
         reFindButton->setText(QApplication::translate("MainWindow", "Redo Find", 0));
+        resetFindButton->setText(QApplication::translate("MainWindow", "Reset Find", 0));
         label_3->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Already scaned count: </p></body></html>", 0));
         scanSNLabel->setText(QApplication::translate("MainWindow", "0", 0));
+        externalTrigger->setText(QApplication::translate("MainWindow", "Use External Trigger", 0));
+        stopScanButton->setText(QApplication::translate("MainWindow", "Stop Scan", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Scan", 0));
         manualReconstruction->setText(QApplication::translate("MainWindow", "Select reconstruction number", 0));
         label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Set current reconstruction number to be:</p></body></html>", 0));
         reconstructionButton->setText(QApplication::translate("MainWindow", "Reconstruction", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "Reconstruct", 0));
+        label_2->setText(QApplication::translate("MainWindow", "Current Operation Processed:", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "Project", 0));
         menuCustomize->setTitle(QApplication::translate("MainWindow", "Customize", 0));
         menuLanguage->setTitle(QApplication::translate("MainWindow", "Language", 0));
